@@ -23,7 +23,7 @@ from binance.enums import *
 # Create sell
 
 # Get coin from command line argument
-coin = str(sys.argv[1]).upper() + 'BTC'
+#coin = str(sys.argv[1]).upper() + 'BTC'
 coin = 'ICNBTC'
 print("Coin %s" % (coin))
 
