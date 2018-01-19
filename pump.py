@@ -1,5 +1,5 @@
 """
-for automating the buying/selling in a pump
+for automating the buying/selling in a pump, use with caution.
 """
 import datetime
 import time
