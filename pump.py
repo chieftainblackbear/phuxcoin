@@ -136,7 +136,7 @@ print("Shares to Sell:  %i" % (shares))
 #             quantity=shares,
 #             price="{:.8f}".format(price_to_sell))
 #         break
-#     time.sleep(1)
+#     time.sleep(.2)
 
 """
 trades = client.get_recent_trades(symbol=coin)
