@@ -23,8 +23,8 @@ from binance.enums import *
 # Create sell
 
 # Get coin from command line argument
-# coin = str(sys.argv[1]).upper() + 'BTC'
-coin = 'ICNBTC'
+coin = str(sys.argv[1]).upper() + 'BTC'
+# coin = 'ICNBTC'
 print("Coin %s" % (coin))
 
 # Get API Creds
@@ -78,20 +78,21 @@ for price in prices:
         print("Current price: %s" % (current_price))
 """
 
-balance = .1
+balance = .25
 print("Wallet Amount: %s" % (balance))
-buy_price_perc = .2
+buy_price_perc = 1.1
 price_to_buy = (int((close_price * buy_price_perc) / tickSize) * tickSize)
 shares = math.floor(balance/price_to_buy)
 print("Price to Buy:  {:.8f}".format(price_to_buy))
 print("Shares to Buy:  %i" % (shares))
 print("")
 
-sell_price_perc = 1.80
+sell_price_perc = 1.6
 price_to_sell = (int((close_price * sell_price_perc) / tickSize) * tickSize)
 print("Price to Sell:  {:.8f}".format(price_to_sell))
 print("Shares to Sell:  %i" % (shares))
 
+"""
 # order = client.create_test_order(
 #     symbol=coin,
 #     side=SIDE_BUY,
@@ -111,32 +112,36 @@ print("Shares to Sell:  %i" % (shares))
 # print(order)
 
 # order = client.order_limit_buy(symbol=coin,quantity=1000,price='0.00000750')
-# buy = client.order_limit_buy(
-#     symbol=coin,
-#     timeInForce=TIME_IN_FORCE_GTC,
-#     newClientOrderId='autobuy'+coin,
-#     quantity=shares,
-#     price="{:.8f}".format(price_to_buy))
-# pprint(buy)
+"""
+
+buy = client.order_limit_buy(
+    symbol=coin,
+    timeInForce=TIME_IN_FORCE_GTC,
+    newClientOrderId='autobuy'+coin,
+    quantity=shares,
+    price="{:.8f}".format(price_to_buy))
+pprint(buy)
 
 # status = buy["status"]
+status = ""
 
-# for counter in range(0,5):
-# while status != 'FILLED':
-#     order_status = client.get_order(
-#         symbol=coin,
-#         origClientOrderId='autobuy'+coin)
-#     status = order_status["status"]
-#     print("%s clientOrderId: %s  Status: %s" % (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'),order_status["clientOrderId"], status))
-#     if status == 'FILLED':
-#         sale = client.order_limit_sell(
-#             symbol=coin,
-#             timeInForce=TIME_IN_FORCE_GTC,
-#             newClientOrderId='autosell'+coin,
-#             quantity=shares,
-#             price="{:.8f}".format(price_to_sell))
-#         break
-#     time.sleep(.2)
+# for counter in range(0,10):
+while status != 'FILLED':
+    order_status = client.get_order(
+        symbol=coin,
+        origClientOrderId='autobuy'+coin)
+    status = order_status["status"]
+    print("%s clientOrderId: %s  Status: %s" % (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'), order_status["clientOrderId"], status))
+    if status == 'FILLED':
+        sale = client.order_limit_sell(
+            symbol=coin,
+            timeInForce=TIME_IN_FORCE_GTC,
+            newClientOrderId='autosell'+coin,
+            quantity=shares,
+            price="{:.8f}".format(price_to_sell))
+        pprint(sale)
+        break
+    time.sleep(.125)
 
 """
 trades = client.get_recent_trades(symbol=coin)
